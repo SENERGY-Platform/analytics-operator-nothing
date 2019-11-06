@@ -29,8 +29,8 @@ import java.util.List;
 
 public class TestMessageProvider {
 
-    public static List<Message> getTestMesssagesSet() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("src/test/resources/sample-data-small.json"));
+    public static List<Message> getTestMesssagesSet(String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
         Builder builder = new Builder("1", "1");
         List<Message> messageSet = new ArrayList<>();
         JSONObject config = getConfig();
@@ -48,17 +48,12 @@ public class TestMessageProvider {
     }
 
     public static JSONObject getConfig() {
-        JSONObject config = new JSONObject().put("inputTopics",new JSONArray().put(new JSONObject().put("Name", "test")
+        return new JSONObject().put("config", new JSONObject().put("inputType","string"))
+                .put("inputTopics",new JSONArray().put(new JSONObject().put("Name", "test")
                 .put("FilterType", "DeviceId")
                 .put("FilterValue", "1")
                 .put("Mappings", new JSONArray()
-                        .put(new JSONObject().put("Source", "value.reading.value1").put("Dest", "value1"))
-                        .put(new JSONObject().put("Source", "value.reading.timestamp1").put("Dest", "timestamp1"))
-                        .put(new JSONObject().put("Source", "value.reading.value2").put("Dest", "value2"))
-                        .put(new JSONObject().put("Source", "value.reading.timestamp2").put("Dest", "timestamp2"))
                         .put(new JSONObject().put("Source", "value.reading.value").put("Dest", "value"))
-                        .put(new JSONObject().put("Source", "value.reading.timestamp").put("Dest", "timestamp"))
                 )));
-        return config;
     }
 }

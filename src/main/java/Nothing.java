@@ -16,13 +16,29 @@
  *
  */
 
+import org.infai.seits.sepl.operators.Config;
 import org.infai.seits.sepl.operators.Message;
 import org.infai.seits.sepl.operators.OperatorInterface;
 
 public class Nothing implements OperatorInterface {
+
+    Config config = new Config();
+
+    public Nothing(){}
+
+    public Nothing(Config config){
+        this.config = config;
+    }
+
     @Override
     public void run(Message message) {
-        double value = message.getInput("value").getValue();
+        String configValue = config.getConfigValue("inputType", "float");
+        Object value;
+        if(configValue.equals("string")){
+            value = message.getInput("value").getString();
+        } else {
+            value = message.getInput("value").getValue();
+        }
         message.output("value", value);
     }
 
